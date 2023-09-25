@@ -48,18 +48,18 @@ def handle_response(text: str) -> str:
 
     def process(num: float, currency: Currency):
         return (
-            number_and_noun(num, currency.name)
+            number_and_noun(num, "гривня")
             + " - "
             + number_and_noun(
-                round(num * currency.rate, 2),
-                "гривня",
+                round(num / currency.rate, 2),
+                currency.name,
             )
         )
 
-    if isfloat(text[0]) and len(text) > 1:
-        num = float(text[0])
+    if isfloat(text[-1]) and len(text) > 1:
+        num = float(text[-1])
         currencies = currency_rate.get_currency_rate(
-            " ".join(word for word in text[1:])
+            " ".join(word for word in text[:-1])
         )
 
     elif isfloat(text[0]) and len(text) == 1:
